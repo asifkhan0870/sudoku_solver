@@ -1,0 +1,71 @@
+class Solution {
+public:
+
+
+    bool fine(int row,int col,char ch,vector<vector<char>>&board){
+
+
+        for(int i=0;i<9;i++){
+
+            // row 
+
+            if(board[row][i]==ch){
+                return false;
+            }
+
+            if(board[i][col]==ch){
+                return false;
+            }
+
+            if(board[(row/3)*3+i/3][(col/3)*3+i%3]==ch){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool solve(vector<vector<char>>&board){
+
+        for(int i=0;i<9;i++){
+            for(int j=0;j<9;j++){
+
+                if(board[i][j]=='.'){
+
+                      for(int n=1;n<=9;n++){
+
+                            char ch=n+'0';
+
+                            if(fine(i,j,ch,board)){
+
+                                board[i][j]=ch;
+
+                                bool next=solve(board);
+                                if(next){
+                                    return true;
+                                }
+                                else{
+                                    board[i][j]='.';
+                                }
+                            }
+                      }
+                      return false;
+                }
+
+            }
+        }
+
+        return true;
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        
+        solve(board);
+
+        for(int i=0;i<9;i++){
+
+            for(int j=0;j<9;j++){
+                cout<<board[i][j]<<" ";
+            }cout<<endl;
+        }
+    }
+};
